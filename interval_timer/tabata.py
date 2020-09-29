@@ -1,5 +1,6 @@
-from interval_timer.master import TimerObject
+from interval_timer.master import TimerObject, State
 import time
+import threading
 
 
 class TabataTimer(TimerObject):
@@ -8,9 +9,25 @@ class TabataTimer(TimerObject):
         self.start()
 
     def start(self):
-        self.start_time = time.perf_counter()
-        cur_time = time.perf_counter() - self.start_time
-        print(cur_time)
+        self.counter = 0
+        self.state = State.ACTIVE
+        self.tabata()
 
     def end(self):
         self.start_time = None
+
+    def tabata(self):
+        threading.Timer(1.0, self.tabata).start()
+        print(self.counter, self.state)
+        if self.state == State.ACTIVE:
+            if self.counter == 20:
+                self.state = State.REST
+                self.counter = 0
+            else:
+                self.counter += 1
+        else:
+            if self.counter == 10:
+                self.state = State.ACTIVE
+                self.counter = 0
+            else:
+                self.counter += 1
