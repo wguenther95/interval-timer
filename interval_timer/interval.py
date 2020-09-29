@@ -1,4 +1,4 @@
-from master import TimerObject
+from interval_timer.master import TimerObject
 
 
 class IntervalTimer(TimerObject):
