@@ -1,7 +1,16 @@
 import time
 
 
-class TimerController:
+class TimerObject:
     def __init__(self):
-        self.timer = time.perf_counter()
-        print(self.timer)
+        self.start_time = None
+
+
+class TabataTimer(TimerObject):
+    def __init__(self):
+        pass
+
+
+class IntervalTimer(TimerObject):
+    def __init__(self):
+        pass
