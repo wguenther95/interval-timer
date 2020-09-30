@@ -4,15 +4,30 @@ import threading
 
 
 class TabataTimer(TimerObject):
-    def __init__(self, rounds=8):
-        self.rounds = rounds
+    state = State.ACTIVE
 
+    def __init__(self, rounds=8):
+        super().__init__()
+        self.rounds = rounds
+        self.round_counter = 0
         self.start()
 
     def start(self):
-        self.timer = 0
-        self.round_counter = 0
-        self.state = State.ACTIVE
+        self.restart()
+        self.timer.timeout.connect(self.tabata)
 
-        t = threading.Timer(1.0, self.tabata)
-        t.start()
+    def tabata(self):
+        if self.round_counter < self.rounds:
+            if self.state == State.ACTIVE:
+                if self.time_string == '00:20':
+                    self.state = State.REST
+                    print("REST")
+                    self.restart()
+            else:
+                if self.time_string == '00:10':
+                    self.state = State.ACTIVE
+                    print("ACTIVE")
+                    self.restart()
+                    self.round_counter += 1
+        else:
+            print("STOP")

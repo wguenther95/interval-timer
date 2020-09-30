@@ -20,5 +20,5 @@ class TabataTest(unittest.TestCase):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = TimerObject()
+    ex = TabataTimer()
     sys.exit(app.exec_())
