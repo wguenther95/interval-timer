@@ -1,9 +1,7 @@
 import os
 import sys
-import unittest
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout
-from PyQt5.QtTest import QTest
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
