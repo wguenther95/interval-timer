@@ -81,6 +81,7 @@ class CycleWidget(QWidget):
         main_layout.addSpacerItem(spacer_item)
 
         self.setLayout(main_layout)
+        self.setFixedHeight(100)
 
     def update_cycle(self):
         self.cycle.update(self.sets.text(), self.low_time.text(), self.high_time.text())
@@ -96,6 +97,7 @@ class CycleScrollArea(QScrollArea):
         cycle = CycleWidget("Interval Cycle 1")
 
         self.layout.addWidget(cycle)
+        self.layout.setAlignment(Qt.AlignTop)
 
         widget.setLayout(self.layout)
         widget.setMaximumWidth(self.width())
