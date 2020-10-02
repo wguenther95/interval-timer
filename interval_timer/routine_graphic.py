@@ -28,11 +28,15 @@ class RoutineWidget(QWidget):
         title_layout.addWidget(save)
 
         self.name = QLineEdit("Routine Name")
+        self.name.setFixedHeight(25)
         self.name.textChanged.connect(self.update_routine)
+
+        self.cycle_scroll_area = CycleScrollArea()
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(title_layout)
         main_layout.addWidget(self.name)
+        main_layout.addWidget(self.cycle_scroll_area)
 
         self.setLayout(main_layout)
 
@@ -40,16 +44,17 @@ class RoutineWidget(QWidget):
 
     def update_routine(self):
         self.routine.update(self.name.text(), 1, 10, 30)
-        print(self.routine.name)
 
 
 class CycleWidget(QWidget):
     def __init__(self, name):
         super().__init__()
 
+        self.cycle = Cycle()
+
         sets_label = QLabel(name)
         self.sets = QComboBox()
-        self.sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        self.sets.addItems(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
 
         low_time_label = QLabel("Low")
         self.low_time = QLineEdit('10')
@@ -71,9 +76,34 @@ class CycleWidget(QWidget):
         main_layout.addLayout(top_layout)
         main_layout.addLayout(bottom_layout)
 
-        spacer_item = QSpacerItem(0, 50, QSizePolicy.Expanding, QSizePolicy.Fixed)
+        spacer_item = QSpacerItem(0, 25, QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        main_layout.addSpacerItem(spacer_item)
+
+        self.setLayout(main_layout)
+
+    def update_cycle(self):
+        self.cycle.update(self.sets.text(), self.low_time.text(), self.high_time.text())
 
 
 class CycleScrollArea(QScrollArea):
     def __init__(self):
         super().__init__()
+
+        widget = QWidget()
+        self.layout = QVBoxLayout()
+
+        cycle = CycleWidget("Interval Cycle 1")
+
+        self.layout.addWidget(cycle)
+
+        widget.setLayout(self.layout)
+        widget.setMaximumWidth(self.width())
+
+        self.setWidget(widget)
+        self.setWidgetResizable(True)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+    def add_cycle(self):
+        cycle = CycleWidget()
+        self.layout.addWidget(cycle)
