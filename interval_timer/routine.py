@@ -1,40 +1,40 @@
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QLineEdit
-from PyQt5.QtCore import Qt
-
 from enum import Enum
-
-
-class Type(Enum):
-    SINGLE: 0
-    COMPLEX: 1
 
 
 class State(Enum):
     LOW: 0
     HIGH: 1
-    REST: 2
+    WARMUP: 2
+    COOLDOWN: 3
+    REST: 4
 
 
-class Routine(QWidget):
-    def __init__(self):
-        super().__init__()
+class Routine:
+    def __init__(self, name=None, num_cycles=1, warmup=10, cooldown=30):
+        self.name = name
+        self.num_cycles = num_cycles
+        self.warmup = warmup
+        self.cooldown = cooldown
 
-        routine_label = QLabel("Add Routine")
-        routine_label.setAlignment(Qt.AlignCenter)
-        save = QPushButton("Save")
-        cancel = QPushButton("Cancel")
+        self.cycles = [Cycle()]
 
-        title_layout = QHBoxLayout()
-        title_layout.addWidget(cancel)
-        title_layout.addWidget(routine_label)
-        title_layout.addWidget(save)
+    def add_cycle(self, cycle):
+        self.cycles.append(cycle)
 
-        name = QLineEdit("Routine Name")
+    def update(self, name, num_cycles, warmup, cooldown):
+        self.name = name
+        self.num_cycles = num_cycles
+        self.warmup = warmup
+        self.cooldown = cooldown
 
-        main_layout = QVBoxLayout()
-        main_layout.addLayout(title_layout)
-        main_layout.addWidget(name)
 
-        self.setLayout(main_layout)
+class Cycle:
+    def __init__(self, sets=10, low_time=10, high_time=60):
+        self.sets = sets
+        self.low_time = 10
+        self.high_time = 60
 
-        self.setFixedSize(400, 600)
+    def update(self, sets, low_time, high_time):
+        self.sets = sets
+        self.low_time = low_time
+        self.high_time = high_time
