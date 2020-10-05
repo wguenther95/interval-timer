@@ -61,10 +61,13 @@ class RoutineWidget(QWidget):
 
     def remove_cycle(self):
         if not self.cycle_scroll_area.layout.itemAt((self.cycle_scroll_area.layout.count()) - 1) == None:
+            # Delete the CycleWidget from the GUI.
             item = self.cycle_scroll_area.layout.itemAt((self.cycle_scroll_area.layout.count()) - 1).widget()
-            self.cycle_scroll_area.layout.removeWidget(item)
             item.setParent(None)
-            del item
+
+            # Delete the corresponding cycle object from the routine.
+            del self.routine.cycles[-1]
+            print(self.routine.cycles)
 
 
 class CycleWidget(QWidget):
