@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QLineEdit,
-                             QScrollArea, QComboBox, QSpacerItem, QSizePolicy)
+                             QScrollArea, QComboBox, QSpacerItem, QSizePolicy, QStyleOption,
+                             QStyle)
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter
 import os
 import sys
 
@@ -9,6 +11,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from interval_timer.routine import Routine, Cycle
+from style.style import css
 
 
 class RoutineWidget(QWidget):
@@ -89,9 +92,19 @@ class CycleWidget(QWidget):
 
         self.setLayout(main_layout)
         self.setFixedHeight(100)
+        self.setFocusPolicy(Qt.StrongFocus)
+        self.setStyleSheet(css)
 
     def update_cycle(self):
         self.cycle.update(self.sets.text(), self.low_time.text(), self.high_time.text())
+
+    # In order to set stylesheets on custom widgets, the paintEvent must be overwritten as follows.
+    def paintEvent(self, e):
+        opt = QStyleOption()
+        opt.initFrom(self)
+        p = QPainter()
+        p.begin(self)
+        self.style().drawPrimitive(QStyle.PE_Widget, opt, p, self)
 
 
 class CycleScrollArea(QScrollArea):
