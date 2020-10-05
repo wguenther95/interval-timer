@@ -21,6 +21,8 @@ class RoutineWidget(QWidget):
         routine_label.setAlignment(Qt.AlignCenter)
         save = QPushButton("Save")
         cancel = QPushButton("Cancel")
+        add_cycle = QPushButton("Add Cycle")
+        add_cycle.clicked.connect(self.add_cycle)
 
         title_layout = QHBoxLayout()
         title_layout.addWidget(cancel)
@@ -37,6 +39,7 @@ class RoutineWidget(QWidget):
         main_layout.addLayout(title_layout)
         main_layout.addWidget(self.name)
         main_layout.addWidget(self.cycle_scroll_area)
+        main_layout.addWidget(add_cycle)
 
         self.setLayout(main_layout)
 
@@ -44,6 +47,11 @@ class RoutineWidget(QWidget):
 
     def update_routine(self):
         self.routine.update(self.name.text(), 1, 10, 30)
+
+    def add_cycle(self):
+        new_cycle = Cycle()
+        self.routine.cycles.append(new_cycle)
+        self.cycle_scroll_area.add_cycle()
 
 
 class CycleWidget(QWidget):
@@ -76,9 +84,9 @@ class CycleWidget(QWidget):
         main_layout.addLayout(top_layout)
         main_layout.addLayout(bottom_layout)
 
-        spacer_item = QSpacerItem(0, 25, QSizePolicy.Expanding, QSizePolicy.Fixed)
+        # spacer_item = QSpacerItem(0, 25, QSizePolicy.Expanding, QSizePolicy.Fixed)
 
-        main_layout.addSpacerItem(spacer_item)
+        # main_layout.addSpacerItem(spacer_item)
 
         self.setLayout(main_layout)
         self.setFixedHeight(100)
@@ -107,5 +115,6 @@ class CycleScrollArea(QScrollArea):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
     def add_cycle(self):
-        cycle = CycleWidget()
+        name = 'Interval Cycle ' + str(self.layout.count() + 1)
+        cycle = CycleWidget(name)
         self.layout.addWidget(cycle)
