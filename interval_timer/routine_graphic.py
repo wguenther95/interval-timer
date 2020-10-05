@@ -60,9 +60,10 @@ class CycleWidget(QWidget):
 
         self.cycle = Cycle()
 
-        sets_label = QLabel(name)
+        label = QLabel(name)
         self.sets = QComboBox()
         self.sets.addItems(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+        sets_label = QLabel("Sets")
 
         low_time_label = QLabel("Low")
         self.low_time = QLineEdit('10')
@@ -71,8 +72,10 @@ class CycleWidget(QWidget):
         self.high_time = QLineEdit('60')
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(sets_label)
+        top_layout.addWidget(label)
+        top_layout.addStretch(2)
         top_layout.addWidget(self.sets)
+        top_layout.addWidget(sets_label)
 
         bottom_layout = QHBoxLayout()
         bottom_layout.addWidget(low_time_label)
