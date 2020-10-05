@@ -84,10 +84,6 @@ class CycleWidget(QWidget):
         main_layout.addLayout(top_layout)
         main_layout.addLayout(bottom_layout)
 
-        # spacer_item = QSpacerItem(0, 25, QSizePolicy.Expanding, QSizePolicy.Fixed)
-
-        # main_layout.addSpacerItem(spacer_item)
-
         self.setLayout(main_layout)
         self.setFixedHeight(100)
 
