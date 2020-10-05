@@ -26,6 +26,8 @@ class RoutineWidget(QWidget):
         cancel = QPushButton("Cancel")
         add_cycle = QPushButton("Add Cycle")
         add_cycle.clicked.connect(self.add_cycle)
+        remove_cycle = QPushButton("Remove Cycle")
+        remove_cycle.clicked.connect(self.remove_cycle)
 
         title_layout = QHBoxLayout()
         title_layout.addWidget(cancel)
@@ -43,6 +45,7 @@ class RoutineWidget(QWidget):
         main_layout.addWidget(self.name)
         main_layout.addWidget(self.cycle_scroll_area)
         main_layout.addWidget(add_cycle)
+        main_layout.addWidget(remove_cycle)
 
         self.setLayout(main_layout)
 
@@ -55,6 +58,13 @@ class RoutineWidget(QWidget):
         new_cycle = Cycle()
         self.routine.cycles.append(new_cycle)
         self.cycle_scroll_area.add_cycle()
+
+    def remove_cycle(self):
+        if not self.cycle_scroll_area.layout.itemAt((self.cycle_scroll_area.layout.count()) - 1) == None:
+            item = self.cycle_scroll_area.layout.itemAt((self.cycle_scroll_area.layout.count()) - 1).widget()
+            self.cycle_scroll_area.layout.removeWidget(item)
+            item.setParent(None)
+            del item
 
 
 class CycleWidget(QWidget):
